@@ -1,0 +1,482 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qianqian.common.mapper.CommodityAdMapper">
+	<resultMap id="BaseResultMap" type="com.qianqian.common.model.CommodityAd">
+		<id column="ad_id" jdbcType="BIGINT" property="adId" />
+		<result column="image_url" jdbcType="VARCHAR" property="imageUrl" />
+		<result column="title" jdbcType="VARCHAR" property="title" />
+		<result column="discount" jdbcType="VARCHAR" property="discount" />
+		<result column="market_price" jdbcType="DECIMAL" property="marketPrice" />
+		<result column="naked_price" jdbcType="DECIMAL" property="nakedPrice" />
+		<result column="open_count" jdbcType="INTEGER" property="openCount" />
+		<result column="active_start" jdbcType="TIMESTAMP" property="activeStart" />
+		<result column="active_end" jdbcType="TIMESTAMP" property="activeEnd" />
+		<result column="commodity_id" jdbcType="BIGINT" property="commodityId" />
+		<result column="commodity_url" jdbcType="VARCHAR" property="commodityUrl" />
+		<result column="url_target" jdbcType="VARCHAR" property="urlTarget" />
+		<result column="ad_state" jdbcType="INTEGER" property="adState" />
+		<result column="create_by" jdbcType="BIGINT" property="createBy" />
+		<result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+		<result column="update_by" jdbcType="BIGINT" property="updateBy" />
+		<result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+		<result column="id" jdbcType="BIGINT" property="id" />
+		<result column="location_id" jdbcType="BIGINT" property="locationId" />
+		<result column="note" jdbcType="VARCHAR" property="note" />
+	</resultMap>
+	<sql id="Example_Where_Clause">
+		<where>
+			<foreach collection="oredCriteria" item="criteria" separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" prefixOverrides="and" suffix=")">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value}
+									and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach close=")" collection="criterion.value" item="listItem"
+										open="(" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Update_By_Example_Where_Clause">
+		<where>
+			<foreach collection="example.oredCriteria" item="criteria"
+				separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" prefixOverrides="and" suffix=")">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value}
+									and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach close=")" collection="criterion.value" item="listItem"
+										open="(" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Base_Column_List">
+		ad_id, image_url, title, discount, market_price,
+		naked_price, open_count,
+		active_start,
+		active_end, commodity_id,
+		commodity_url, url_target, ad_state, create_by,
+		create_time,
+		update_by,
+		update_time
+	</sql>
+	<select id="selectByExample" parameterType="com.qianqian.common.model.CommodityAdExample"
+		resultMap="BaseResultMap">
+		select
+		<if test="distinct">
+			distinct
+		</if>
+		<include refid="Base_Column_List" />
+		from cms_commodity_ad
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
+	<select id="selectByPrimaryKey" parameterType="java.lang.Long"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from cms_commodity_ad
+		where ad_id = #{adId,jdbcType=BIGINT}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from
+		cms_commodity_ad
+		where ad_id = #{adId,jdbcType=BIGINT}
+	</delete>
+	<delete id="deleteByExample" parameterType="com.qianqian.common.model.CommodityAdExample">
+		delete from cms_commodity_ad
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</delete>
+	<insert id="insert" parameterType="com.qianqian.common.model.CommodityAd">
+		<selectKey resultType="java.lang.Long" order="BEFORE"  keyProperty="adId">
+       		 SELECT uuid_short() AS adId
+     	 </selectKey>
+	
+		insert into cms_commodity_ad
+		(ad_id, image_url, title,
+		discount, market_price, naked_price,
+		open_count, active_start, active_end,
+		commodity_id, commodity_url,
+		url_target,
+		ad_state, create_by, create_time,
+		update_by, update_time)
+		values (#{adId},#{imageUrl,jdbcType=VARCHAR},
+		#{title,jdbcType=VARCHAR},
+		#{discount,jdbcType=VARCHAR},
+		#{marketPrice,jdbcType=DECIMAL}, #{nakedPrice,jdbcType=DECIMAL},
+		#{openCount,jdbcType=INTEGER}, #{activeStart,jdbcType=TIMESTAMP},
+		#{activeEnd,jdbcType=TIMESTAMP},
+		#{commodityId,jdbcType=BIGINT},
+		#{commodityUrl,jdbcType=VARCHAR}, #{urlTarget,jdbcType=VARCHAR},
+		#{adState,jdbcType=INTEGER}, #{createBy,jdbcType=BIGINT},
+		#{createTime,jdbcType=TIMESTAMP},
+		#{updateBy,jdbcType=BIGINT},
+		#{updateTime,jdbcType=TIMESTAMP})
+	</insert>
+	<insert id="insertSelective" parameterType="com.qianqian.common.model.CommodityAd">
+		insert into cms_commodity_ad
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="adId != null">
+				ad_id,
+			</if>
+			<if test="imageUrl != null">
+				image_url,
+			</if>
+			<if test="title != null">
+				title,
+			</if>
+			<if test="discount != null">
+				discount,
+			</if>
+			<if test="marketPrice != null">
+				market_price,
+			</if>
+			<if test="nakedPrice != null">
+				naked_price,
+			</if>
+			<if test="openCount != null">
+				open_count,
+			</if>
+			<if test="activeStart != null">
+				active_start,
+			</if>
+			<if test="activeEnd != null">
+				active_end,
+			</if>
+			<if test="commodityId != null">
+				commodity_id,
+			</if>
+			<if test="commodityUrl != null">
+				commodity_url,
+			</if>
+			<if test="urlTarget != null">
+				url_target,
+			</if>
+			<if test="adState != null">
+				ad_state,
+			</if>
+			<if test="createBy != null">
+				create_by,
+			</if>
+			<if test="createTime != null">
+				create_time,
+			</if>
+			<if test="updateBy != null">
+				update_by,
+			</if>
+			<if test="updateTime != null">
+				update_time,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="adId != null">
+				#{adId,jdbcType=BIGINT},
+			</if>
+			<if test="imageUrl != null">
+				#{imageUrl,jdbcType=VARCHAR},
+			</if>
+			<if test="title != null">
+				#{title,jdbcType=VARCHAR},
+			</if>
+			<if test="discount != null">
+				#{discount,jdbcType=VARCHAR},
+			</if>
+			<if test="marketPrice != null">
+				#{marketPrice,jdbcType=DECIMAL},
+			</if>
+			<if test="nakedPrice != null">
+				#{nakedPrice,jdbcType=DECIMAL},
+			</if>
+			<if test="openCount != null">
+				#{openCount,jdbcType=INTEGER},
+			</if>
+			<if test="activeStart != null">
+				#{activeStart,jdbcType=TIMESTAMP},
+			</if>
+			<if test="activeEnd != null">
+				#{activeEnd,jdbcType=TIMESTAMP},
+			</if>
+			<if test="commodityId != null">
+				#{commodityId,jdbcType=BIGINT},
+			</if>
+			<if test="commodityUrl != null">
+				#{commodityUrl,jdbcType=VARCHAR},
+			</if>
+			<if test="urlTarget != null">
+				#{urlTarget,jdbcType=VARCHAR},
+			</if>
+			<if test="adState != null">
+				#{adState,jdbcType=INTEGER},
+			</if>
+			<if test="createBy != null">
+				#{createBy,jdbcType=BIGINT},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateBy != null">
+				#{updateBy,jdbcType=BIGINT},
+			</if>
+			<if test="updateTime != null">
+				#{updateTime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	<select id="countByExample" parameterType="com.qianqian.common.model.CommodityAdExample"
+		resultType="java.lang.Integer">
+		select count(*) from cms_commodity_ad
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</select>
+	<update id="updateByExampleSelective" parameterType="map">
+		update cms_commodity_ad
+		<set>
+			<if test="record.adId != null">
+				ad_id = #{record.adId,jdbcType=BIGINT},
+			</if>
+			<if test="record.imageUrl != null">
+				image_url = #{record.imageUrl,jdbcType=VARCHAR},
+			</if>
+			<if test="record.title != null">
+				title = #{record.title,jdbcType=VARCHAR},
+			</if>
+			<if test="record.discount != null">
+				discount = #{record.discount,jdbcType=VARCHAR},
+			</if>
+			<if test="record.marketPrice != null">
+				market_price = #{record.marketPrice,jdbcType=DECIMAL},
+			</if>
+			<if test="record.nakedPrice != null">
+				naked_price = #{record.nakedPrice,jdbcType=DECIMAL},
+			</if>
+			<if test="record.openCount != null">
+				open_count = #{record.openCount,jdbcType=INTEGER},
+			</if>
+			<if test="record.activeStart != null">
+				active_start = #{record.activeStart,jdbcType=TIMESTAMP},
+			</if>
+			<if test="record.activeEnd != null">
+				active_end = #{record.activeEnd,jdbcType=TIMESTAMP},
+			</if>
+			<if test="record.commodityId != null">
+				commodity_id = #{record.commodityId,jdbcType=BIGINT},
+			</if>
+			<if test="record.commodityUrl != null">
+				commodity_url = #{record.commodityUrl,jdbcType=VARCHAR},
+			</if>
+			<if test="record.urlTarget != null">
+				url_target = #{record.urlTarget,jdbcType=VARCHAR},
+			</if>
+			<if test="record.adState != null">
+				ad_state = #{record.adState,jdbcType=INTEGER},
+			</if>
+			<if test="record.createBy != null">
+				create_by = #{record.createBy,jdbcType=BIGINT},
+			</if>
+			<if test="record.createTime != null">
+				create_time = #{record.createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="record.updateBy != null">
+				update_by = #{record.updateBy,jdbcType=BIGINT},
+			</if>
+			<if test="record.updateTime != null">
+				update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByExample" parameterType="map">
+		update cms_commodity_ad
+		set ad_id = #{record.adId,jdbcType=BIGINT},
+		image_url = #{record.imageUrl,jdbcType=VARCHAR},
+		title =
+		#{record.title,jdbcType=VARCHAR},
+		discount =
+		#{record.discount,jdbcType=VARCHAR},
+		market_price =
+		#{record.marketPrice,jdbcType=DECIMAL},
+		naked_price =
+		#{record.nakedPrice,jdbcType=DECIMAL},
+		open_count =
+		#{record.openCount,jdbcType=INTEGER},
+		active_start =
+		#{record.activeStart,jdbcType=TIMESTAMP},
+		active_end =
+		#{record.activeEnd,jdbcType=TIMESTAMP},
+		commodity_id =
+		#{record.commodityId,jdbcType=BIGINT},
+		commodity_url =
+		#{record.commodityUrl,jdbcType=VARCHAR},
+		url_target =
+		#{record.urlTarget,jdbcType=VARCHAR},
+		ad_state =
+		#{record.adState,jdbcType=INTEGER},
+		create_by =
+		#{record.createBy,jdbcType=BIGINT},
+		create_time =
+		#{record.createTime,jdbcType=TIMESTAMP},
+		update_by =
+		#{record.updateBy,jdbcType=BIGINT},
+		update_time =
+		#{record.updateTime,jdbcType=TIMESTAMP}
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByPrimaryKeySelective" parameterType="com.qianqian.common.model.CommodityAd">
+		update cms_commodity_ad
+		<set>
+			<if test="imageUrl != null">
+				image_url = #{imageUrl,jdbcType=VARCHAR},
+			</if>
+			<if test="title != null">
+				title = #{title,jdbcType=VARCHAR},
+			</if>
+			<if test="discount != null">
+				discount = #{discount,jdbcType=VARCHAR},
+			</if>
+			<if test="marketPrice != null">
+				market_price = #{marketPrice,jdbcType=DECIMAL},
+			</if>
+			<if test="nakedPrice != null">
+				naked_price = #{nakedPrice,jdbcType=DECIMAL},
+			</if>
+			<if test="openCount != null">
+				open_count = #{openCount,jdbcType=INTEGER},
+			</if>
+			<if test="activeStart != null">
+				active_start = #{activeStart,jdbcType=TIMESTAMP},
+			</if>
+			<if test="activeEnd != null">
+				active_end = #{activeEnd,jdbcType=TIMESTAMP},
+			</if>
+			<if test="commodityId != null">
+				commodity_id = #{commodityId,jdbcType=BIGINT},
+			</if>
+			<if test="commodityUrl != null">
+				commodity_url = #{commodityUrl,jdbcType=VARCHAR},
+			</if>
+			<if test="urlTarget != null">
+				url_target = #{urlTarget,jdbcType=VARCHAR},
+			</if>
+			<if test="adState != null">
+				ad_state = #{adState,jdbcType=INTEGER},
+			</if>
+			<if test="createBy != null">
+				create_by = #{createBy,jdbcType=BIGINT},
+			</if>
+			<if test="createTime != null">
+				create_time = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateBy != null">
+				update_by = #{updateBy,jdbcType=BIGINT},
+			</if>
+			<if test="updateTime != null">
+				update_time = #{updateTime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where ad_id = #{adId,jdbcType=BIGINT}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.qianqian.common.model.CommodityAd">
+		update
+		cms_commodity_ad
+		set image_url = #{imageUrl,jdbcType=VARCHAR},
+		title =
+		#{title,jdbcType=VARCHAR},
+		discount = #{discount,jdbcType=VARCHAR},
+		market_price = #{marketPrice,jdbcType=DECIMAL},
+		naked_price =
+		#{nakedPrice,jdbcType=DECIMAL},
+		open_count =
+		#{openCount,jdbcType=INTEGER},
+		active_start =
+		#{activeStart,jdbcType=TIMESTAMP},
+		active_end =
+		#{activeEnd,jdbcType=TIMESTAMP},
+		commodity_id =
+		#{commodityId,jdbcType=BIGINT},
+		commodity_url =
+		#{commodityUrl,jdbcType=VARCHAR},
+		url_target =
+		#{urlTarget,jdbcType=VARCHAR},
+		ad_state = #{adState,jdbcType=INTEGER},
+		create_by = #{createBy,jdbcType=BIGINT},
+		create_time =
+		#{createTime,jdbcType=TIMESTAMP},
+		update_by =
+		#{updateBy,jdbcType=BIGINT},
+		update_time =
+		#{updateTime,jdbcType=TIMESTAMP}
+		where ad_id = #{adId,jdbcType=BIGINT}
+	</update>
+	
+	<!-- 通过位置查询广告并且按照位置进行排序 -->
+	<select id="selectByLocationAndSort" resultMap="BaseResultMap"
+		parameterType="com.qianqian.common.model.AdLocation">
+		select c.id,b.location_id ,b.note, a.ad_id, a.image_url,
+		a.title , a.discount,a.market_price,a.naked_price,
+     	a.open_count, a.commodity_id,a.commodity_url,
+	  	 a.active_start,a.active_end,a.url_target,
+		a.ad_state,c.show_state
+		from (select * from cms_ad_location
+		where ad_type
+		= 1 and page_type = #{pageType}
+		and category = #{category}
+		and location_type = #{locationType}
+		and location_floor = #{floor} 
+    	order by sort asc) b
+		left join (select * from cms_map_ad_location
+		where
+		show_state = 1) c on b.location_id=c.location_id
+		left join (select *
+		from cms_commodity_ad
+		where ad_state = 1) a on c.ad_id=a.ad_id
+	</select>
+</mapper>

@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qianqian.common.mapper.AdLocationMapper" >
+  <resultMap id="BaseResultMap" type="com.qianqian.common.model.AdLocation" >
+    <id column="location_id" property="locationId" jdbcType="BIGINT" />
+    <result column="page_type" property="pageType" jdbcType="INTEGER" />
+    <result column="category" property="category" jdbcType="BIGINT" />
+    <result column="location_type" property="locationType" jdbcType="INTEGER" />
+    <result column="floor" property="location_floor" jdbcType="INTEGER" />
+    <result column="sort" property="sort" jdbcType="INTEGER" />
+    <result column="note" property="note" jdbcType="VARCHAR" />
+    <result column="ad_type" property="adType" jdbcType="INTEGER" />
+    <result column="board_name" property="boardName" jdbcType="VARCHAR" />
+    <result column="create_by" property="createBy" jdbcType="BIGINT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_by" property="updateBy" jdbcType="BIGINT" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    location_id, page_type, category, location_type, location_floor, sort, note, ad_type,
+    create_by, create_time, update_by, update_time
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.qianqian.common.model.AdLocationExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from cms_ad_location
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from cms_ad_location
+    where location_id = #{locationId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from cms_ad_location
+    where location_id = #{locationId,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.qianqian.common.model.AdLocationExample" >
+    delete from cms_ad_location
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.qianqian.common.model.AdLocation" >
+    insert into cms_ad_location (location_id, page_type, category, 
+      location_type, location_floor, sort, 
+      note, ad_type,
+      create_by, create_time, update_by, 
+      update_time)
+    values (uuid_short(), #{pageType,jdbcType=INTEGER}, #{category,jdbcType=BIGINT}, 
+      #{locationType,jdbcType=INTEGER}, #{floor,jdbcType=INTEGER}, #{sort,jdbcType=INTEGER}, 
+      #{note,jdbcType=VARCHAR}, #{adType,jdbcType=INTEGER}, 
+      #{createBy,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=BIGINT}, 
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.qianqian.common.model.AdLocation" >
+    insert into cms_ad_location
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="locationId != null" >
+        location_id,
+      </if>
+      <if test="pageType != null" >
+        page_type,
+      </if>
+      <if test="category != null" >
+        category,
+      </if>
+      <if test="locationType != null" >
+        location_type,
+      </if>
+      <if test="floor != null" >
+        location_floor,
+      </if>
+      <if test="sort != null" >
+        sort,
+      </if>
+      <if test="note != null" >
+        note,
+      </if>
+      <if test="adType != null" >
+        ad_type,
+      </if>
+     
+      <if test="createBy != null" >
+        create_by,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateBy != null" >
+        update_by,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="locationId != null" >
+        #{locationId,jdbcType=BIGINT},
+      </if>
+      <if test="pageType != null" >
+        #{pageType,jdbcType=INTEGER},
+      </if>
+      <if test="category != null" >
+        #{category,jdbcType=BIGINT},
+      </if>
+      <if test="locationType != null" >
+        #{locationType,jdbcType=INTEGER},
+      </if>
+      <if test="floor != null" >
+        #{floor,jdbcType=INTEGER},
+      </if>
+      <if test="sort != null" >
+        #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="note != null" >
+        #{note,jdbcType=VARCHAR},
+      </if>
+      <if test="adType != null" >
+        #{adType,jdbcType=INTEGER},
+      </if>
+     
+      <if test="createBy != null" >
+        #{createBy,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        #{updateBy,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.qianqian.common.model.AdLocationExample" resultType="java.lang.Integer" >
+    select count(*) from cms_ad_location
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update cms_ad_location
+    <set >
+      <if test="record.locationId != null" >
+        location_id = #{record.locationId,jdbcType=BIGINT},
+      </if>
+      <if test="record.pageType != null" >
+        page_type = #{record.pageType,jdbcType=INTEGER},
+      </if>
+      <if test="record.category != null" >
+        category = #{record.category,jdbcType=BIGINT},
+      </if>
+      <if test="record.locationType != null" >
+        location_type = #{record.locationType,jdbcType=INTEGER},
+      </if>
+      <if test="record.floor != null" >
+        location_floor = #{record.floor,jdbcType=INTEGER},
+      </if>
+      <if test="record.sort != null" >
+        sort = #{record.sort,jdbcType=INTEGER},
+      </if>
+      <if test="record.note != null" >
+        note = #{record.note,jdbcType=VARCHAR},
+      </if>
+      <if test="record.adType != null" >
+        ad_type = #{record.adType,jdbcType=INTEGER},
+      </if>
+     
+      <if test="record.createBy != null" >
+        create_by = #{record.createBy,jdbcType=BIGINT},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateBy != null" >
+        update_by = #{record.updateBy,jdbcType=BIGINT},
+      </if>
+      <if test="record.updateTime != null" >
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update cms_ad_location
+    set location_id = #{record.locationId,jdbcType=BIGINT},
+      page_type = #{record.pageType,jdbcType=INTEGER},
+      category = #{record.category,jdbcType=BIGINT},
+      location_type = #{record.locationType,jdbcType=INTEGER},
+      location_floor = #{record.floor,jdbcType=INTEGER},
+      sort = #{record.sort,jdbcType=INTEGER},
+      note = #{record.note,jdbcType=VARCHAR},
+      ad_type = #{record.adType,jdbcType=INTEGER},
+     
+      create_by = #{record.createBy,jdbcType=BIGINT},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_by = #{record.updateBy,jdbcType=BIGINT},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qianqian.common.model.AdLocation" >
+    update cms_ad_location
+    <set >
+      <if test="pageType != null" >
+        page_type = #{pageType,jdbcType=INTEGER},
+      </if>
+      <if test="category != null" >
+        category = #{category,jdbcType=BIGINT},
+      </if>
+      <if test="locationType != null" >
+        location_type = #{locationType,jdbcType=INTEGER},
+      </if>
+      <if test="floor != null" >
+        location_floor = #{floor,jdbcType=INTEGER},
+      </if>
+      <if test="sort != null" >
+        sort = #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="note != null" >
+        note = #{note,jdbcType=VARCHAR},
+      </if>
+      <if test="adType != null" >
+        ad_type = #{adType,jdbcType=INTEGER},
+      </if>
+     
+      <if test="createBy != null" >
+        create_by = #{createBy,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        update_by = #{updateBy,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where location_id = #{locationId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.qianqian.common.model.AdLocation" >
+    update cms_ad_location
+    set page_type = #{pageType,jdbcType=INTEGER},
+      category = #{category,jdbcType=BIGINT},
+      location_type = #{locationType,jdbcType=INTEGER},
+      location_floor = #{floor,jdbcType=INTEGER},
+      sort = #{sort,jdbcType=INTEGER},
+      note = #{note,jdbcType=VARCHAR},
+      ad_type = #{adType,jdbcType=INTEGER},
+  
+      create_by = #{createBy,jdbcType=BIGINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_by = #{updateBy,jdbcType=BIGINT},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where location_id = #{locationId,jdbcType=BIGINT}
+  </update>
+</mapper>

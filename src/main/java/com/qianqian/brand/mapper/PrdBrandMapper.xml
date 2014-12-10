@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qianqian.brand.mapper.PrdBrandMapper">
+
+	<select id="queryByPrdBrand" parameterType="com.qianqian.brand.model.PrdBrand"
+		resultType="com.qianqian.brand.model.PrdBrand">
+			SELECT
+				id as "id",
+				`name` as "name",
+				english_name as "englishName",
+				logo_url as "logoUrl",
+				small_logo as "smallLogo",
+				poster_image as "posterImage",
+				introduction as "introduction",
+				in_time as "inTime",
+				caution_money as "cautionMoney",
+				cooperate_startDate as "cooperateStartDate",
+				cooperate_endDate as "cooperateEndDate",
+				brandAuth_image as "brandAuthImage",
+				brandAuth_startDate as "brandAuthStartDate",
+				brandAuth_endDate as "brandAuthEndDate",
+				agentAuth_image as "agentAuthImage",
+				agentAuth_startDate as "agentAuthStartDate",
+				agentAuth_endDate as "agentAuthEndDate",
+				creator as "creator",
+				create_time as "createTime",
+				modifier as "modifier",
+				modify_date as "modifyDate",
+				version as "version"
+			FROM
+				prd_brand
+			<where>
+				 1 = 1
+				 <if test="id!=null and id!='' ">
+					and	id = #{id}
+				</if>
+				<if test="startLetter!=null and startLetter!='' ">           
+					and	instr(UPPER(substring(english_name,1,1)),#{startLetter})>0
+				</if>
+			</where>
+	</select>
+
+</mapper>
